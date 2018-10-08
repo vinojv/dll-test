@@ -20,11 +20,11 @@ module.exports = ({
   mode: 'production',
   entry,
   output: {
+    filename: `${moduleName ? (`${moduleName}.`) : ''}[name].[hash].js`, // best use [hash] here too
     path: path.join(__dirname, '../__build__', `${buildFolder || 'default'}`),
-    filename: `${moduleName ? (`${moduleName}.`) : ''}[name].[contenthash].js`,
+    library: 'vendor_lib_[hash]',
     chunkFilename: `${moduleName ? (`${moduleName}.`) : ''}[name].[contenthash].chunk.js`,
     publicPath: publicPath || buildFolder,
-    globalObject: 'this',
   },
   cache: true,
   module: base,
@@ -38,7 +38,6 @@ module.exports = ({
     modules: [
       'node_modules',
       path.join(__dirname, '../'),
-      // context || path.resolve(__dirname, '..'),
     ],
     cacheWithContext: false,
   },
@@ -48,22 +47,7 @@ module.exports = ({
   },
   target: 'web',
   // optimization: {
-  //   // minimizer: [
-  //   //   new UglifyJSPlugin({
-  //   //     cache: true,
-  //   //     parallel: true,
-  //   //     uglifyOptions: {
-  //   //       compress: {
-  //   //         drop_console: true,
-  //   //       },
-  //   //     },
-  //   //   }),
-  //   //   new OptimizeCSSAssetsPlugin({
-  //   //     cssProcessorOptions: { discardComments: { removeAll: true } },
-  //   //   }),
-  //   // ],
   //   minimize: false,
-  //   // runtimeChunk: true,
   //   removeEmptyChunks: true,
   //   removeAvailableModules: true,
   //   occurrenceOrder: true,
@@ -93,20 +77,13 @@ module.exports = ({
         APP_PLATFORM: JSON.stringify(process.env.APP_PLATFORM || 'ide'),
       },
     }),
-    new ManifestPlugin({
-      generate: (seed, files) => files.reduce((manifest, { name, path }) => ({ ...manifest, [name]: path }), seed),
-      serialize: (manifest) => {
-        console.log('\nmanifest', manifest, manifest.isAsset, manifest.isInitial, manifest.isChunk);
-        return JSON.stringify(manifest, null, 2);
-      },
-    }),
-    new webpack.ProgressPlugin(),
-    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/, /lodash/, /immutable/, /react/, /eva/, 'brace'),
-    new webpack.HashedModuleIdsPlugin(),
-    new MiniCssExtractPlugin({
-      filename: '[name].[hash].css',
-      chunkFilename: '[id].[hash].css',
-    }),
+    // new ManifestPlugin({
+    //   generate: (seed, files) => files.reduce((manifest, { name, path }) => ({ ...manifest, [name]: path }), seed),
+    //   serialize: (manifest) => {
+    //     console.log('\nmanifest', manifest, manifest.isAsset, manifest.isInitial, manifest.isChunk);
+    //     return JSON.stringify(manifest, null, 2);
+    //   },
+    // }),
     ...(inject ? [new HtmlWebpackPlugin({
       template: 'index.html',
       // minify: {
@@ -124,24 +101,18 @@ module.exports = ({
       inject: true,
       chunksSortMode: 'dependency',
     })] : []),
-    new webpack.DllReferencePlugin({
-      manifest: require('./../__build__/core/manifest.json'),
+    new webpack.ProgressPlugin(),
+    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/, /lodash/, /immutable/, /react/, /eva/, 'brace'),
+    new webpack.HashedModuleIdsPlugin(),
+    new MiniCssExtractPlugin({
+      filename: '[name].[hash].css',
+      chunkFilename: '[id].[hash].css',
     }),
-    // new CompressionPlugin({
-    //   minRatio: 0.8,
-    // }),
-    // new CompressionPlugin({
-    //   asset: '[path].gz[query]',
-    //   algorithm: 'gzip',
-    //   test: /\.(js|html|css|md|ttf|txt|eot|ico|otf|svg|png|gif|woff2|woff|jpeg)$/,
-    //   threshold: 10240,
-    //   minRatio: 0.7,
-    //   deleteOriginalAssets: true,
-    // }),
-    // new CopyWebpackPlugin([
-    //   { from: 'core/src/images/favicon.png', to: 'favicon.png' },
-    // ], { copyUnmodified: true }),
-    // new BundleAnalyzerPlugin(),
+    new webpack.DllPlugin({
+      // name: "vendor_lib_[hash]",
+      path: path.join(__dirname, '../__build__', moduleName, 'manifest.json'),
+      name: '[name]_[hash]',
+    }),
   ],
   externals: [
     'css-loader',
