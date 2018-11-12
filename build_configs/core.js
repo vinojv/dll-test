@@ -13,7 +13,7 @@ module.exports = {
   },
   output: {
     path: path.join(__dirname, '__build__'),
-    filename: `${moduleName}.[name].js`,
+    filename: `${moduleName}.js`,
     library: '[name]_[hash]',
   },
   inject: true,

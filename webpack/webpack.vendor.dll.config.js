@@ -20,10 +20,11 @@ module.exports = ({
   mode: 'production',
   entry,
   output: {
-    filename: `${moduleName ? (`${moduleName}.`) : ''}[name].[hash].js`, // best use [hash] here too
+    filename: `[name].[hash].js`, // best use [hash] here too
     path: path.join(__dirname, '../__build__', `${buildFolder || 'default'}`),
-    library: 'vendor_lib_[hash]',
-    chunkFilename: `${moduleName ? (`${moduleName}.`) : ''}[name].[contenthash].chunk.js`,
+    library: '[name]',
+    libraryExport: 'default',
+    chunkFilename: `[name].[contenthash].chunk.js`,
     publicPath: publicPath || buildFolder,
   },
   cache: true,
@@ -102,7 +103,7 @@ module.exports = ({
       chunksSortMode: 'dependency',
     })] : []),
     new webpack.ProgressPlugin(),
-    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/, /lodash/, /immutable/, /react/, /eva/, 'brace'),
+    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/, /lodash/, /immutable/, /eva/, 'brace'),
     new webpack.HashedModuleIdsPlugin(),
     new MiniCssExtractPlugin({
       filename: '[name].[hash].css',
@@ -111,7 +112,7 @@ module.exports = ({
     new webpack.DllPlugin({
       // name: "vendor_lib_[hash]",
       path: path.join(__dirname, '../__build__', moduleName, 'manifest.json'),
-      name: '[name]_[hash]',
+      name: '[name]',
     }),
   ],
   externals: [

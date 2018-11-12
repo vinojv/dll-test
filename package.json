@@ -1,13 +1,12 @@
 {
-  "name": "mmi",
-  "private": true,
-  "version": "1.0.0",
+  "name": "@rzt/mmi",
+  "version": "1.0.3",
   "description": "multiple modules",
   "main": "index.js",
   "scripts": {
     "start": "concurrently --kill-others \"better-npm-run start-dev\"",
     "clean": "rimraf ./__build__",
-    "deploy": "NODE_OPTIONS=--max-old-space-size=16384  ./build.js --config ./build-configs/all.js"
+    "deploy": "NODE_OPTIONS=--max-old-space-size=16384  ./build.js --config ./build_configs/all.js"
   },
   "repository": {
     "type": "git",

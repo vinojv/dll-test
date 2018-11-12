@@ -21,8 +21,8 @@ module.exports = ({
   entry,
   output: {
     path: path.join(__dirname, '../__build__', `${buildFolder || 'default'}`),
-    filename: `${moduleName ? (`${moduleName}.`) : ''}[name].[contenthash].js`,
-    chunkFilename: `${moduleName ? (`${moduleName}.`) : ''}[name].[contenthash].chunk.js`,
+    filename: `[name].js`,
+    // chunkFilename: `[name].chunk.js`,
     publicPath: publicPath || buildFolder,
     globalObject: 'this',
   },
@@ -124,9 +124,12 @@ module.exports = ({
       inject: true,
       chunksSortMode: 'dependency',
     })] : []),
-    new webpack.DllReferencePlugin({
-      manifest: require('./../__build__/core/manifest.json'),
-    }),
+    new webpack.DllReferencePlugin(
+      {
+        context: path.join(__dirname, '../__build__'),
+        manifest: require('./../__build__/core/manifest.json'),
+      },
+    ),
     // new CompressionPlugin({
     //   minRatio: 0.8,
     // }),
