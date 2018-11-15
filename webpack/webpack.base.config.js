@@ -3,6 +3,7 @@ const fs = require('fs');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const include = [
+  path.resolve(__dirname, '../'),
   path.resolve(__dirname, '../core'),
   path.resolve(__dirname, '../apps'),
   path.resolve(__dirname, '../node_modules/eva'),
