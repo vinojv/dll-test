@@ -8,25 +8,35 @@
   <title>Document</title>
 </head>
 <body>
+<div id='root'></div>
 <script>
   fetch('manifest.json')
     .then(res => res.json())
     .then((res) => {
+      const injectScript = (file, onload) => {
+        const scriptTag = document.createElement('script');
+        scriptTag.type = 'application/javascript';
+        scriptTag.src = file;
+        // scriptTag.setAttribute('defer', true)
+        scriptTag.defer = true;
+        scriptTag.onload = onload;
+        console.log('script', file);
+        document.querySelector('head').appendChild(scriptTag);
+      };
+      const divTag = document.createElement('div');
       console.log(res);
-      Object.entries(res).forEach(([name, apps])=>{
-        Object.entries(apps).forEach(([_, files])=>{
-          Object.entries(files).forEach(([type, file])=>{
-            console.log(type, file)
-            const scriptTag = document.createElement('script');
-            scriptTag.type = 'application/javascript';
-            scriptTag.src = file;
-            scriptTag.defer = 'defer';
-            console.log('script', file)
-            document.querySelector('body').appendChild(scriptTag);
-          })
-        })
+      injectScript(res.core.core.js,()=>{
+        Object.entries(res).forEach(([name, apps]) => {
+          if (name === 'core') {return;}
+          Object.entries(apps).forEach(([_, files]) => {
+            Object.entries(files).forEach(([type, file]) => {
+              console.log(type, file);
+              injectScript(file);
+            });
+          });
+        });
       })
-
+      // .appendChild(divTag);
       // Object.entries(res).forEach(([moduleName, mod]) => {
       //   // if (moduleName === 'core') return;
       //   Object.entries(mod).forEach(([name, script]) => {

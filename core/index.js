@@ -1,8 +1,7 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 
-console.log(' loaded core ');
-const div = document.createElement('div');
-div.innerHTML = '<h4>core</h4>';
-document.body.appendChild(div);
-let loaded = false;
+const App = () => <span>Core</span>;
+ReactDOM.render(<App />, document.getElementById('root'));
+
 export default 'core';
