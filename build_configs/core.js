@@ -3,9 +3,9 @@ const path = require('path');
 const moduleName = 'core';
 module.exports = {
   entry: {
-    libraries: [
-      'react',
-    ],
+    // libraries: [
+    //   'react',
+    // ],
     [moduleName]: [
       path.resolve(__dirname, '../core', './index.js'),
       path.resolve(__dirname, '../core', './core_submodule.js'),

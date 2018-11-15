@@ -21,8 +21,8 @@ module.exports = ({
   entry,
   output: {
     path: path.join(__dirname, '../__build__', `${buildFolder || 'default'}`),
-    filename: `[name].js`,
-    // chunkFilename: `[name].chunk.js`,
+    filename: `${moduleName ? (`${moduleName}.`) : ''}[name].[contenthash].js`,
+    chunkFilename: `${moduleName ? (`${moduleName}.`) : ''}[name].[contenthash].chunk.js`,
     publicPath: publicPath || buildFolder,
     globalObject: 'this',
   },
@@ -30,11 +30,11 @@ module.exports = ({
   module: base,
   resolve: {
     extensions: ['.js'],
-    alias: {
-      core: path.resolve(__dirname, '../core'),
-      module1: path.resolve(__dirname, '../module1'),
-      module2: path.resolve(__dirname, '../module2'),
-    },
+    // alias: {
+    //   core: path.resolve(__dirname, '../core'),
+    //   module1: path.resolve(__dirname, '../module1'),
+    //   module2: path.resolve(__dirname, '../module2'),
+    // },
     modules: [
       'node_modules',
       path.join(__dirname, '../'),
@@ -45,6 +45,9 @@ module.exports = ({
   parallelism: 10,
   performance: {
     hints: 'warning',
+  },
+  optimization: {
+    minimize: false,
   },
   target: 'web',
   // optimization: {
@@ -126,8 +129,11 @@ module.exports = ({
     })] : []),
     new webpack.DllReferencePlugin(
       {
-        context: path.join(__dirname, '../__build__'),
+        // context: path.join(__dirname, '../__build__'),
+        context: '.',
         manifest: require('./../__build__/core/manifest.json'),
+        // name: '[hash]',
+        // name: 'libraries.8bb04f52c671c168a1f4.js',
       },
     ),
     // new CompressionPlugin({

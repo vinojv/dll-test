@@ -23,9 +23,12 @@ module.exports = ({
     filename: `[name].[hash].js`, // best use [hash] here too
     path: path.join(__dirname, '../__build__', `${buildFolder || 'default'}`),
     library: '[name]',
-    libraryExport: 'default',
+    // libraryExport: 'default',
     chunkFilename: `[name].[contenthash].chunk.js`,
     publicPath: publicPath || buildFolder,
+  },
+  optimization: {
+    minimize: false,
   },
   cache: true,
   module: base,
@@ -103,7 +106,6 @@ module.exports = ({
       chunksSortMode: 'dependency',
     })] : []),
     new webpack.ProgressPlugin(),
-    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/, /lodash/, /immutable/, /eva/, 'brace'),
     new webpack.HashedModuleIdsPlugin(),
     new MiniCssExtractPlugin({
       filename: '[name].[hash].css',
@@ -111,6 +113,7 @@ module.exports = ({
     }),
     new webpack.DllPlugin({
       // name: "vendor_lib_[hash]",
+      // context: path.join(__dirname, '../__build__'),
       path: path.join(__dirname, '../__build__', moduleName, 'manifest.json'),
       name: '[name]',
     }),

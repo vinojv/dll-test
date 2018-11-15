@@ -20,9 +20,11 @@ fetch('manifest.json')
       // if (moduleName === 'core') return;
       Object.entries(mod).forEach(([name, script]) => {
         if (name.includes('index.html')) return;
+        if (typeof script === 'object') return;
         const scriptTag = document.createElement('script');
         scriptTag.type = 'application/javascript';
         scriptTag.src = script;
+        console.log('script', script)
         document.querySelector('body').appendChild(scriptTag);
         count++;
       });
