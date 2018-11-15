@@ -18,7 +18,7 @@
       "command": "node --max-old-space-size=8192 server.js",
       "env": {
         "NODE_ENV": "development",
-        "PORT": 8889,
+        "PORT": 8899,
         "API_HOST": "bigbraindev.razorthink.net",
         "API_PORT": 8000,
         "MODULE_NAME": "Default Dev Server"

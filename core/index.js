@@ -8,7 +8,8 @@ let routes = [];
 
 export const AppContext = React.createContext();
 
-class Main extends React.Component {
+export class Main extends React.Component {
+  static injectRoutes;
   state = {
     routes: [],
   };
@@ -20,6 +21,7 @@ class Main extends React.Component {
 
   constructor(props) {
     super(props);
+    Main.injectRoutes = this.injectRoutes;
     window.injectRoutes = this.injectRoutes;
   }
 
@@ -53,5 +55,4 @@ class Main extends React.Component {
 }
 
 ReactDOM.render(<Main />, document.getElementById('root'));
-
 export default 'core';
