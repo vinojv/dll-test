@@ -11,6 +11,8 @@ const base = require('./webpack.base.config');
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 // var LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
+var AssetsPlugin = require('assets-webpack-plugin');
+
 
 module.exports = ({
   entry, moduleName, buildFolder, context, inject,
@@ -80,6 +82,15 @@ module.exports = ({
         NO_AUTH: process.env.NO_AUTH ? process.env.NO_AUTH : false,
         APP_PLATFORM: JSON.stringify(process.env.APP_PLATFORM || 'ide'),
       },
+    }),
+    // new ManifestPlugin({
+    //   fileName: 'initial.json',
+    // }),
+    new AssetsPlugin({
+      path: path.join('__build__', publicPath || buildFolder),
+      filename: 'assets.json',
+      prettyPrint: true,
+      entrypoints: true,
     }),
     // new ManifestPlugin({
     //   generate: (seed, files) => files.reduce((manifest, { name, path }) => ({ ...manifest, [name]: path }), seed),

@@ -108,12 +108,12 @@ build()
     const jsons = {};
     directories.forEach(i => {
       jsons[i] = JSON.parse(
-        fs.readFileSync(path.join(paths.appBuild, i, 'manifest.json'), 'utf-8'),
+        fs.readFileSync(path.join(paths.appBuild, i, 'assets.json'), 'utf-8'),
       );
     });
     fs.writeFileSync(path.join(paths.appBuild, 'manifest.json'), JSON.stringify(jsons));
     if (!configs.inject) return;
-    const html = fs.readFileSync(path.join(paths.appBuild, configs.moduleName, 'index.html'));
+    const html = fs.readFileSync(path.join(__dirname, 'index.html'));
     fs.writeFileSync(path.join(paths.appBuild, 'index.html'), html);
 
   }, (err) => {

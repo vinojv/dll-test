@@ -8,6 +8,41 @@
   <title>Document</title>
 </head>
 <body>
+<script>
+  fetch('manifest.json')
+    .then(res => res.json())
+    .then((res) => {
+      console.log(res);
+      Object.entries(res).forEach(([name, apps])=>{
+        Object.entries(apps).forEach(([_, files])=>{
+          Object.entries(files).forEach(([type, file])=>{
+            console.log(type, file)
+            const scriptTag = document.createElement('script');
+            scriptTag.type = 'application/javascript';
+            scriptTag.src = file;
+            scriptTag.defer = 'defer';
+            console.log('script', file)
+            document.querySelector('body').appendChild(scriptTag);
+          })
+        })
+      })
 
+      // Object.entries(res).forEach(([moduleName, mod]) => {
+      //   // if (moduleName === 'core') return;
+      //   Object.entries(mod).forEach(([name, script]) => {
+      //     if (name.includes('index.html')) return;
+      //     if (typeof script === 'object') return;
+      //     const scriptTag = document.createElement('script');
+      //     scriptTag.type = 'application/javascript';
+      //     scriptTag.src = script;
+      //     console.log('script', script)
+      //     document.querySelector('body').appendChild(scriptTag);
+      //     count++;
+      //   });
+      // });
+    }).catch(e => {
+    console.error(e);
+  });
+</script>
 </body>
 </html>

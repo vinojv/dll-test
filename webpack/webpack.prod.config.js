@@ -12,6 +12,8 @@ const base = require('./webpack.base.config');
 // var LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 
+var AssetsPlugin = require('assets-webpack-plugin');
+
 module.exports = ({
   entry, moduleName, buildFolder, context, inject,
   publicPath = '/', plugins = [],
@@ -96,12 +98,21 @@ module.exports = ({
         APP_PLATFORM: JSON.stringify(process.env.APP_PLATFORM || 'ide'),
       },
     }),
-    new ManifestPlugin({
-      generate: (seed, files) => files.reduce((manifest, { name, path }) => ({ ...manifest, [name]: path }), seed),
-      serialize: (manifest) => {
-        console.log('\nmanifest', manifest, manifest.isAsset, manifest.isInitial, manifest.isChunk);
-        return JSON.stringify(manifest, null, 2);
-      },
+    // new ManifestPlugin({
+    //   generate: (seed, files) => files.reduce((manifest, { name, path }) => ({ ...manifest, [name]: path }), seed),
+    //   serialize: (manifest) => {
+    //     console.log('\nmanifest', manifest, manifest.isAsset, manifest.isInitial, manifest.isChunk);
+    //     return JSON.stringify(manifest, null, 2);
+    //   },
+    // }),
+    // new ManifestPlugin({
+    //   fileName: 'initial.json',
+    // }),
+    new AssetsPlugin({
+      path: path.join('__build__', publicPath || buildFolder),
+      filename: 'assets.json',
+      prettyPrint: true,
+      entrypoints: true,
     }),
     new webpack.ProgressPlugin(),
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/, /lodash/, /immutable/, /react/, /eva/, 'brace'),
