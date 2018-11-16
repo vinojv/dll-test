@@ -40,6 +40,7 @@ module.exports = ({
       core: path.resolve(__dirname, '../core'),
       module1: path.resolve(__dirname, '../module1'),
       module2: path.resolve(__dirname, '../module2'),
+      commons: path.resolve(__dirname, '../commons'),
     },
     modules: [
       'node_modules',

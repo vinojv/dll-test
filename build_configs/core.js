@@ -3,12 +3,12 @@ const path = require('path');
 const moduleName = 'core';
 module.exports = {
   entry: {
-    // libraries: [
-    //   'react',
-    // ],
+    commons: [
+      path.resolve(__dirname, '../commons', 'index.js'),
+    ],
     [moduleName]: [
       path.resolve(__dirname, '../core', './index.js'),
-      path.resolve(__dirname, '../core', './core_submodule.js'),
+      // path.resolve(__dirname, '../commons', 'index.js'),
     ],
   },
   output: {

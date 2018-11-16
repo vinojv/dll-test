@@ -4,7 +4,7 @@ import { Route, Switch } from 'react-router';
 import { BrowserRouter, NavLink } from 'react-router-dom';
 
 let routes = [];
-
+// export * as commons from 'commons';
 
 export const AppContext = React.createContext();
 

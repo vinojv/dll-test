@@ -17,6 +17,7 @@
     "@babel/plugin-proposal-export-default-from",
     "@babel/plugin-syntax-dynamic-import",
     "@babel/plugin-transform-react-display-name",
+    "@babel/plugin-proposal-export-namespace-from",
     [
       "module-resolver",
       {

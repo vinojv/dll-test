@@ -33,6 +33,7 @@ module.exports = ({
   resolve: {
     extensions: ['.js'],
     // alias: {
+      // Commons: path.resolve(__dirname, '../core/core_submodules.js'),
     //   core: path.resolve(__dirname, '../core'),
     //   module1: path.resolve(__dirname, '../module1'),
     //   module2: path.resolve(__dirname, '../module2'),
